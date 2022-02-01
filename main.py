@@ -1,12 +1,17 @@
 import os
+from typing import List
 
-from lxml import etree
-from scraper import PyCurlSynchronousEngine, Request
+from scraper import PyCurlSynchronousEngine, Request, SynchronousExporter
+
+
+WIKI_PAGE = 'https://en.wikipedia.org/wiki/History_of_Athens'
+#WIKI_PAGE = 'https://en.wikipedia.org/wiki/Cyrus_the_Great'
+#WIKI_PAGE = 'https://en.wikipedia.org/wiki/Elizabeth_II'
 
 
 def main():
-    with PyCurlSynchronousEngine() as engine:
-        res = engine.send(Request('https://en.wikipedia.org/wiki/Elizabeth_II'))
+    with PyCurlSynchronousEngine() as engine, SynchronousExporter() as exporter:
+        res = engine.send(Request(WIKI_PAGE))
         print(res)
 
         title = res.xfirst('//h1/text()')
@@ -15,12 +20,12 @@ def main():
         # Get Intro
         chapters.append({
             'name': 'Introduction',
-            'content': res.xall("//table[contains(@class,'vcard')]/following-sibling::h2[1]/preceding-sibling::*[self::p or self::blockquote]")
+            'content': res.xall("//div[@id='mw-content-text']/div/p[1]/following-sibling::h2[1]/preceding-sibling::*[self::p or self::blockquote]")
         })
 
         # Get Chapter names, excluding the last ones (except the first encounter that will be used as delimiter)
         h2s_names = []
-        for h2 in res.xall("//table[contains(@class,'vcard')]/following-sibling::h2"):
+        for h2 in res.xall("//div[@id='mw-content-text']/div/p/following-sibling::h2"):
             content = h2.xfirst("./span/text()")
             h2s_names.append(content)
             if content in ['See also', 'Notes', 'Citations']:
@@ -30,20 +35,17 @@ def main():
         for prev_h2, next_h2 in zip(h2s_names, h2s_names[1:]):
             chapters.append({
                 'name': prev_h2,
-                'content': res.xall("//h2[./span/text()='{}']/following-sibling::*[self::p or self::blockquote][following-sibling::h2[./span/text()='{}']]".format(prev_h2, next_h2))
+                'content': res.xall("//h2[./span/text()='{}']/following-sibling::*[self::p or self::blockquote or self::h3][following-sibling::h2[./span/text()='{}']]".format(prev_h2, next_h2))
             })
 
-        #print(etree.tostring(chapters[3]['content'], pretty_print=True).decode())
-
-        # Extract sub chapter (h3)
-        # TODO
-
         # Remove table TODO
+        # Reformat list TODO
         # Remove left over tags TODO
-        # Clean up each chapter
+
         # Reformat link
         # Reformat italique
         # Reformat quotes
+        # Reformat h3
         # Remove References
         for chapter in chapters:
             for sub_chapter in chapter['content']:
@@ -53,9 +55,11 @@ def main():
                 for i in sub_chapter.xpath('.//i'):
                     i.drop_tag()
 
-                for quote in sub_chapter.xpath('.//blockquote'):
-                    print(quote.xpath('./p/text()'))
+                for quote in sub_chapter.xpath('.//self::blockquote/p'):
                     quote.drop_tag()
+
+                for sub_title in sub_chapter.xpath('.//self::h3/span'):
+                    sub_title.drop_tag()
 
                 for sup in sub_chapter.xpath('.//sup'):
                     sup.drop_tree()
@@ -66,23 +70,52 @@ def main():
         except FileExistsError:
             pass
 
+        # Write Raw file
         with open('var/{}/raw.txt'.format(title), mode='w') as file:
             for chapter in chapters:
-                if chapter['content']:
-                    file.write(chapter['name'].strip())
+                if chapter['content'] is not None:  # If not content we do not write the chapter titles
+                    text = chapter['name'].strip().replace("\u00A0", " ").replace('[edit]', '') # Remove nbsp, whitspaces, "edit" before writing
+                    file.write(text)
                     file.write('\n\n')
                     for sub_chapter in chapter['content']:
-                        if sub_chapter.xfirst('./text()'):
-                            file.write(sub_chapter.xfirst('./text()'))
-                            file.write('\n\n')
+                        if sub_chapter.xfirst('./text()') is not None:
+                            text = sub_chapter.text_content().strip().replace("\u00A0", " ").replace('[edit]','')  # Remove nbsp, whitspaces, "edit" before writing
+                            file.write(text)
+                            file.write('\n')
 
                     file.write('\n\n')
 
+        # Get all images and descriptions
+        with open('var/{}/images.txt'.format(title), mode='w') as file:
+            has_seen_caption = False
+            for i, img_a in enumerate(res.xall("//a[@class='image']"), start=1):
+                description = ''
+                if img_a.xfirst("./following-sibling::div[@class='thumbcaption']", suppress_warning=True) is not None:
+                    description = img_a.xfirst("./following-sibling::div[@class='thumbcaption']").text_content()
+                    has_seen_caption = True
+                elif img_a.xfirst("../following-sibling::div[@class='thumbcaption']", suppress_warning=True) is not None:
+                    description = img_a.xfirst("../following-sibling::div[@class='thumbcaption']").text_content()
+                    has_seen_caption = True
+                elif has_seen_caption:
+                    break  # If there are no caption it means we reach the bottom of the page. The following images are part of the menus
 
-        # Get all images
-        # Can be done on the root
+                src = img_a.xfirst('./img/@src')
+                src_split: List[str] = src.split('/')
+                src_split.pop()  # remove last part
+                src_split.remove('thumb')
 
+                src = "https:{}".format("/".join(src_split))
 
+                res_img = engine.send(Request(src))
+                print(res_img)
+                filename = '{:0>3}'.format(i)
+                filepath = 'var/{}'.format(title)
+
+                # Save images
+                exporter.export_as_file(res_img, filepath, filename)
+                # Save description
+                file.write(description)
+                file.write('\n')
 
 
         # Add ssml to title and chapters
