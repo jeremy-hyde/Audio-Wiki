@@ -96,6 +96,10 @@ def main():
                 elif img_a.xfirst("../following-sibling::div[@class='thumbcaption']", suppress_warning=True) is not None:
                     description = img_a.xfirst("../following-sibling::div[@class='thumbcaption']").text_content()
                     has_seen_caption = True
+                elif img_a.xfirst('../self::td[@class="mbox-image"]', suppress_warning=True) is not None:  # Table with images but wiki internal info box
+                    continue
+                elif img_a.xfirst('../self::td', suppress_warning=True) is not None:  # Table with images
+                    pass  # The description cannot be retrieved
                 elif has_seen_caption:
                     break  # If there are no caption it means we reach the bottom of the page. The following images are part of the menus
 
