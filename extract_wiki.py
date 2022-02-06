@@ -114,11 +114,13 @@ def main(url):
                     break  # If there are no caption it means we reach the bottom of the page. The following images are part of the menus
 
                 src = img_a.xfirst('./img/@src')
-                src_split: List[str] = src.split('/')
-                src_split.pop()  # remove last part
-                src_split.remove('thumb')
-
-                src = "https:{}".format("/".join(src_split))
+                if 'thumb' in src:
+                    src_split: List[str] = src.split('/')
+                    src_split.pop()  # remove last part
+                    src_split.remove('thumb')
+                    src = "https:{}".format("/".join(src_split))
+                else: # If the picture has the same size as the original ?
+                    src = "https:{}".format(src)
 
                 res_img = engine.send(Request(src))
                 print(res_img)
