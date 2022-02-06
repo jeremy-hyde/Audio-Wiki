@@ -74,6 +74,7 @@ def main(url):
         # Create directory
         try:
             os.mkdir("var/{}".format(title))
+            os.mkdir("var/{}/images".format(title))
         except FileExistsError:
             pass
 
@@ -122,7 +123,7 @@ def main(url):
                 res_img = engine.send(Request(src))
                 print(res_img)
                 filename = '{:0>3}'.format(i)
-                filepath = 'var/{}'.format(title)
+                filepath = 'var/{}/images'.format(title)
 
                 # Save images
                 exporter.export_as_file(res_img, filepath, filename)
