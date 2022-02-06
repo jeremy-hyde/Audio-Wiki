@@ -4,4 +4,4 @@ TODO
 Try to extract more legends from text around images
 Try to extract more images from wikimedia commons
 Resize svg to a certain size ?
-
+Remove references in image caption
