@@ -1,19 +1,25 @@
 import os
+import argparse
 from typing import List
 
-from scraper import PyCurlSynchronousEngine, Request, SynchronousExporter
+from scraper import PyCurlSynchronousEngine, Request, SynchronousExporter, Settings
 
 
-WIKI_PAGE = 'https://en.wikipedia.org/wiki/History_of_Athens'
+# Exemples
+#WIKI_PAGE = 'https://en.wikipedia.org/wiki/History_of_Athens'
 #WIKI_PAGE = 'https://en.wikipedia.org/wiki/Cyrus_the_Great'
 #WIKI_PAGE = 'https://en.wikipedia.org/wiki/Elizabeth_II'
 
 
-def main():
-    with PyCurlSynchronousEngine() as engine, SynchronousExporter() as exporter:
-        res = engine.send(Request(WIKI_PAGE))
+def main(url):
+    settings = Settings()
+    settings.remove_http_middleware("RequestFilterMiddlewareHttp")
+    settings.remove_http_middleware("HttpHistoryOnSQLiteMiddlewareHttp")
+    settings.remove_http_middleware("RetryMiddlewareHttp")
+    with PyCurlSynchronousEngine(settings=settings) as engine, SynchronousExporter() as exporter:
+        res = engine.send(Request(url))
         print(res)
-
+        print("Extract Titles & Chapters")
         title = res.xfirst('//h1/text()')
         chapters = []
 
@@ -38,6 +44,7 @@ def main():
                 'content': res.xall("//h2[./span/text()='{}']/following-sibling::*[self::p or self::blockquote or self::h3][following-sibling::h2[./span/text()='{}']]".format(prev_h2, next_h2))
             })
 
+        print('Reformat')
         # Remove table TODO
         # Reformat list TODO
         # Remove left over tags TODO
@@ -70,6 +77,7 @@ def main():
         except FileExistsError:
             pass
 
+        print("Write file")
         # Write Raw file
         with open('var/{}/raw.txt'.format(title), mode='w') as file:
             for chapter in chapters:
@@ -79,12 +87,13 @@ def main():
                     file.write('\n\n')
                     for sub_chapter in chapter['content']:
                         if sub_chapter.xfirst('./text()') is not None:
-                            text = sub_chapter.text_content().strip().replace("\u00A0", " ").replace('[edit]','')  # Remove nbsp, whitspaces, "edit" before writing
+                            text = sub_chapter.text_content().strip().replace("\u00A0", " ").replace('[edit]', '')  # Remove nbsp, whitspaces, "edit" before writing
                             file.write(text)
                             file.write('\n')
 
                     file.write('\n\n')
 
+        print("Fetch all images")
         # Get all images and descriptions
         with open('var/{}/images.txt'.format(title), mode='w') as file:
             has_seen_caption = False
@@ -122,12 +131,8 @@ def main():
                 file.write('\n')
 
 
-        # Add ssml to title and chapters
-
-        # Write file
-
-
-
-
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("url", help="url of the wiki page", type=str)
+    args = parser.parse_args()
+    main(args.url)

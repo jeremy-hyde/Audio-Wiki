@@ -6,7 +6,7 @@ authors = ["Ferrer-Jeremy <ferrer.jeremy3@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-scraper = { path = "../scraper", develop = true }
+scraper = { path = "../Babbage/scraper", develop = true }
 ffmpeg-python = "^0.2.0"
 google-cloud-texttospeech = "^2.9.1"
 

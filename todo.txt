@@ -1,0 +1,4 @@
+
+
+# Try to extract more legends from text around images
+
