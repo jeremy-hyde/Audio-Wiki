@@ -25,7 +25,7 @@ def main(url):
 
         # Get Intro
         chapters.append({
-            'name': 'Introduction',
+            'name': '<mark name="Introduction"/><emphasis level="moderate">Introduction.</emphasis><break time="1s"/>',
             'content': res.xall("//div[@id='mw-content-text']/div/p[1]/following-sibling::h2[1]/preceding-sibling::*[self::p or self::blockquote]")
         })
 
@@ -40,7 +40,7 @@ def main(url):
         # Get Chapter content
         for prev_h2, next_h2 in zip(h2s_names, h2s_names[1:]):
             chapters.append({
-                'name': prev_h2,
+                'name': '<mark name="{}"/><emphasis level="moderate">{}.</emphasis><break time="1s"/>'.format(prev_h2, prev_h2),
                 'content': res.xall("//h2[./span/text()='{}']/following-sibling::*[self::p or self::blockquote or self::h3][following-sibling::h2[./span/text()='{}']]".format(prev_h2, next_h2))
             })
 
@@ -85,14 +85,14 @@ def main(url):
                 if chapter['content'] is not None:  # If not content we do not write the chapter titles
                     text = chapter['name'].strip().replace("\u00A0", " ").replace('[edit]', '') # Remove nbsp, whitspaces, "edit" before writing
                     file.write(text)
-                    file.write('\n\n')
+                    file.write('\n')
                     for sub_chapter in chapter['content']:
                         if sub_chapter.xfirst('./text()') is not None:
                             text = sub_chapter.text_content().strip().replace("\u00A0", " ").replace('[edit]', '')  # Remove nbsp, whitspaces, "edit" before writing
                             file.write(text)
                             file.write('\n')
 
-                    file.write('\n\n')
+                    file.write('\n')
 
         print("Fetch all images")
         # Get all images and descriptions

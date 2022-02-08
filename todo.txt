@@ -1,7 +1,26 @@
 TODO
 
-
 Try to extract more legends from text around images
 Try to extract more images from wikimedia commons
 Resize svg to a certain size ?
 Remove references in image caption
+Split the file in 5000 characters parts
+
+
+DONE {
+    Add dot to the end of each title to be correctly pronounced
+    Add <break time="1s"/> to the end of each title
+    title = '<mark name="{}"/><emphasis level="moderate">{}.</emphasis><break time="1s"/>'
+    Utiliser les timepoints pour marquer les chapitres
+    title = '<mark name="{}"/><emphasis level="moderate">{}.</emphasis><break time="1s"/>'
+    https://cloud.google.com/text-to-speech/docs/ssml#ssml_timepoints
+}
+
+voicebooking utilise google text to speech
+La voix sur voicebooking est légérement mieux surement grace a un travail sur l'audio, pas forcément --  shrug ?
+
+
+
+
+
+
