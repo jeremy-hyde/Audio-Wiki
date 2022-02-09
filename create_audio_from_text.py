@@ -1,9 +1,17 @@
+from os import walk
 import argparse
 from google.cloud import texttospeech_v1beta1 as texttospeech
 from google.cloud.texttospeech_v1beta1 import SynthesizeSpeechRequest
 
 
-def synthesize_text_file(text_file, format):
+def main(folder, format):
+    filenames = next(walk(folder), (None, None, []))[2]
+
+    for i, file in enumerate(filenames, start=1):
+        synthesize_text_file(i, file, format)
+
+
+def synthesize_text_file(i, text_file, format):
     """Synthesizes speech from the input file of text."""
 
     directories = text_file.split('/')[:-1]  # remove last part
@@ -45,11 +53,11 @@ def synthesize_text_file(text_file, format):
     )
 
     # The response's audio_content is binary.
-    with open("{}/output.mp3".format('/'.join(directories)), "wb") as out:
+    with open("{}/audio/output_{}.mp3".format('/'.join(directories), i), "wb") as out:
         out.write(response.audio_content)
         print('Audio content written to file "output.mp3"')
 
-    with open("{}/timepoints.txt".format('/'.join(directories)), "w") as out:
+    with open("{}/timepoint/output_{}.txt".format('/'.join(directories), i), "w") as out:
         for timepoint in response.timepoints:
             out.write("{} => {}\n".format(timepoint.mark_name, timepoint.time_seconds))
         print('Timepoints written to file "timepoints.txt"')
@@ -66,6 +74,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.text:
-        synthesize_text_file(args.text, 'text')
+        main(args.text, 'text')
     else:
-        synthesize_text_file(args.ssml, 'ssml')
+        main(args.ssml, 'ssml')

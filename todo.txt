@@ -1,10 +1,10 @@
 TODO
 
 DONE Resize svg to a certain size ?
+DONE Split the file in 5000 characters parts
 Remove references in image caption
 Try to extract more legends from text around images
 Try to extract more images from wikimedia commons
-Split the file in 5000 characters parts
 Setup a counter to see the number of characters send for each project and the total
 Put a mark in each image place to display them at the appropriate time
 
