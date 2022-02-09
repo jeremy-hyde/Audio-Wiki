@@ -74,9 +74,14 @@ def main(url):
         # Create directory
         try:
             os.mkdir("var/{}".format(title))
+        except FileExistsError:
+            pass
+
+        try:
             os.mkdir("var/{}/images".format(title))
         except FileExistsError:
             pass
+
 
         print("Write file")
         # Write Raw file

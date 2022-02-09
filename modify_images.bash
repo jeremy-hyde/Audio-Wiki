@@ -4,7 +4,6 @@
 
 if [ ! -d "$1"/images_backup/ ]; then
     echo '=> Backup Images'
-    rm
     cp -Ra "$1"/images/ "$1"/images_backup/
 fi
 
