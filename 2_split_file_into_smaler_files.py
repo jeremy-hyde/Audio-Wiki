@@ -15,7 +15,7 @@ def main(folder):
     file_number = 1
     total = 0
     lines = []
-    limit = CHARACTER_LIMIT
+    limit = CHARACTER_LIMIT - 15  # 15 => the tags <speak> </speak>
 
     with open('{}/raw.txt'.format(folder), mode='r') as file:
         for line in file:
@@ -24,13 +24,21 @@ def main(folder):
                 total += len(line)
                 limit -= 1
             else:
-                with open('{}/part_{}.txt'.format(result_folder, file_number), mode='w') as file_written:
-                    file_written.writelines(lines)
+                write_file(file_number, lines, result_folder)
 
                 total = len(line)
                 lines = [line]
                 file_number += 1
                 limit = CHARACTER_LIMIT
+
+        write_file(file_number, lines, result_folder)
+
+
+def write_file(file_number, lines, result_folder):
+    with open('{}/part_{}.txt'.format(result_folder, file_number), mode='w') as file_written:
+        file_written.write('<speak>')
+        file_written.writelines(lines)
+        file_written.write('</speak>')
 
 
 if __name__ == '__main__':
