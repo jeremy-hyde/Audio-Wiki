@@ -1,29 +1,39 @@
+import os
 from os import walk
 import argparse
 from google.cloud import texttospeech_v1beta1 as texttospeech
 from google.cloud.texttospeech_v1beta1 import SynthesizeSpeechRequest
 
 
-def main(folder, format):
-    filenames = next(walk(folder), (None, None, []))[2]
+def main(folder):
+    create_directories(folder)
+    filenames = next(walk('{}/ssml'.format(folder)), (None, None, []))[2]
 
     for i, file in enumerate(filenames, start=1):
-        synthesize_text_file(i, file, format)
+        print('Creating audio of file: {}'.format(file))
+        synthesize_text_file(i, '{}/ssml/{}'.format(folder, file), folder)
 
 
-def synthesize_text_file(i, text_file, format):
+def create_directories(folder):
+    # Create directory
+    try:
+        os.mkdir("{}/audio".format(folder))
+    except FileExistsError:
+        pass
+
+    try:
+        os.mkdir("{}/timepoints".format(folder))
+    except FileExistsError:
+        pass
+
+
+def synthesize_text_file(i, text_file, folder):
     """Synthesizes speech from the input file of text."""
-
-    directories = text_file.split('/')[:-1]  # remove last part
-
     client = texttospeech.TextToSpeechClient()
 
     with open(text_file, "r") as f:
         text = f.read()
-        if format == 'text':
-            input_text = texttospeech.SynthesisInput(text=text)
-        else:
-            input_text = texttospeech.SynthesisInput(ssml=text)
+        input_text = texttospeech.SynthesisInput(ssml=text)
 
     # Note: the voice can also be specified by name.
     # Names of voices can be retrieved with client.list_voices().
@@ -41,7 +51,7 @@ def synthesize_text_file(i, text_file, format):
     )
 
     audio_config = texttospeech.AudioConfig(
-        speaking_rate=0.95,
+        speaking_rate=0.90,
         pitch=0.0,
         volume_gain_db=0.0,
         audio_encoding=texttospeech.AudioEncoding.MP3,
@@ -53,27 +63,18 @@ def synthesize_text_file(i, text_file, format):
     )
 
     # The response's audio_content is binary.
-    with open("{}/audio/output_{}.mp3".format('/'.join(directories), i), "wb") as out:
+    with open("{}/audio/output_{}.mp3".format(folder, i), "wb") as out:
         out.write(response.audio_content)
-        print('Audio content written to file "output.mp3"')
+        print('Audio content written to file "{}/audio/output_{}.mp3"'.format(folder, i))
 
-    with open("{}/timepoint/output_{}.txt".format('/'.join(directories), i), "w") as out:
+    with open("{}/timepoints/output_{}.txt".format(folder, i), "w") as out:
         for timepoint in response.timepoints:
             out.write("{} => {}\n".format(timepoint.mark_name, timepoint.time_seconds))
-        print('Timepoints written to file "timepoints.txt"')
+        print('Timepoints content written to file "{}/timepoints/output_{}.mp3"'.format(folder, i))
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
-    )
-    group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument("--text", help="The text file from which to synthesize speech.")
-    group.add_argument("--ssml", help="The ssml file from which to synthesize speech.")
-
+    parser = argparse.ArgumentParser()
+    parser.add_argument("folder", help="The folder file from which to synthesize speech.", type=str)
     args = parser.parse_args()
-
-    if args.text:
-        main(args.text, 'text')
-    else:
-        main(args.ssml, 'ssml')
+    main(args.folder)
