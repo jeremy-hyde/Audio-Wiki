@@ -68,7 +68,6 @@ def main(url):
         create_directories(title)
 
         result = [
-            title,
             '<break time="1s"/><mark name="Introduction"/><emphasis level="moderate">Introduction.</emphasis><break time="1s"/>'
         ]
 
@@ -92,7 +91,7 @@ def main(url):
                 h4 = clean_up(element)
                 text = '<break time="0.5s"/><emphasis level="moderate">{0}.</emphasis><break time="0.5s"/>'.format(h4)
                 result.append(text)
-            elif element.tag == 'ul':
+            elif element.tag == 'ul' and not element.get('class'):  # Only ul text
                 for sub_element in element.xpath('./li'):
                     result.append(clean_up(sub_element))
             elif element.tag == 'div' and "thumb" in element.get('class', ''):  # Get images

@@ -15,13 +15,23 @@ DONE {
 }
 DONE Extract Lists in main page
 
+Manual Things to do:
+After 1
+- Remove extra in the raw.txt (see also and references at the end of an article)
+- Remove unnecessary parenthesis in raw.txt
+- Check pronunciation of: I (first or aïe ?)
+After 2
+- Check each file is under 5000 characters
+After 4
+- Check images and captions
+
 
 -- PRIORITY 1
 Extract Main image
 Create the video from the audio and images
 Video description template
-Last Image with like & subsrcibe + comment (suggest next video)
-Audio with like & subscrine + comment (suggest next video)
+Last Image with like & subscribe + comment (suggest next video)
+Audio with like & subscribe + comment (suggest next video)
 
 
 -- PRIORITY 2
@@ -34,6 +44,7 @@ Extract Table as images
 Extract the main table (infobox) as the last image for the video with a 10s delay
 Setup a counter to see the number of characters send for each project and the total
 Put a mark in each image place to display them at the appropriate time
+Extract colors in captions
 
 
 voicebooking utilise google text to speech
