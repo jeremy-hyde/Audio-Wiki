@@ -31,6 +31,7 @@ def create_directories(title):
 
 
 def clean_up(element):
+    # remove reference <sup> except if it contains 2 or 3 (km², surface, volume, ...)
     for sup in element.xpath('.//sup[not(text() = "2" or text() = "3")]'):
         sup.drop_tree()
     return element.text_content().strip().replace("\u00A0", " ").replace('[edit]', '')
@@ -50,8 +51,6 @@ def get_img_url(url):
 def extract_caption(element):
     if element.xfirst(".//div[@class='thumbcaption']", suppress_warning=True) is not None:
         return element.xfirst(".//div[@class='thumbcaption']")
-    # elif element.xfirst("./div/div[@class='thumbcaption']", suppress_warning=True) is not None:
-    #     return element.xfirst("../following-sibling::div[@class='thumbcaption']").text_content()
 
 
 def main(url):
@@ -80,10 +79,6 @@ def main(url):
         content = res.xfirst('//div[@class="mw-parser-output"]')
         for element in content.xpath('./*'):
             if element.tag == 'p':
-                # remove reference <sup> except if it contains 2 or 3 (km², surface, volume, ...)
-                for sup in element.xpath('.//sup[not(text() = "2" or text() = "3")]'):
-                    sup.drop_tree()
-
                 result.append(clean_up(element))
             elif element.tag == 'h2':
                 h2 = clean_up(element)
@@ -97,6 +92,9 @@ def main(url):
                 h4 = clean_up(element)
                 text = '<break time="0.5s"/><emphasis level="moderate">{0}.</emphasis><break time="0.5s"/>'.format(h4)
                 result.append(text)
+            elif element.tag == 'ul':
+                for sub_element in element.xpath('./li'):
+                    result.append(clean_up(sub_element))
             elif element.tag == 'div' and "thumb" in element.get('class', ''):  # Get images
                 # Add mark for images here
                 image_src = element.xfirst(".//img/@src")

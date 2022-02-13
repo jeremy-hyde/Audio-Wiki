@@ -1,6 +1,10 @@
 
 DONE Resize svg to a certain size ?
 DONE Split the file in 5000 characters parts
+DONE Add emphasis and break around h3 and h4
+DONE Add break before titles h2, h3 and h4
+DONE Remove folder with the same name before starting
+DONE Remove references in image caption automatically
 DONE {
     Add dot to the end of each title to be correctly pronounced
     Add <break time="1s"/> to the end of each title
@@ -9,23 +13,25 @@ DONE {
     title = '<mark name="{}"/><emphasis level="moderate">{}.</emphasis><break time="1s"/>'
     https://cloud.google.com/text-to-speech/docs/ssml#ssml_timepoints
 }
+DONE Extract Lists in main page
 
 
 -- PRIORITY 1
-DONE Add emphasis and break around h3 and h4
-DONE Add break before titles h2, h3 and h4
-
-Extract number from div[@class="hlist"]>ul>li
 Extract Main image
-Extract mosaic and make mosaic
 Create the video from the audio and images
-Remove folder with the same name before starting
+Video description template
+Last Image with like & subsrcibe + comment (suggest next video)
+Audio with like & subscrine + comment (suggest next video)
 
 
 -- PRIORITY 2
-Remove references in image caption automatically
+Extract image mosaic and make mosaic
+Extract number from div[@class="hlist"]>ul>li
+Extract more images and the captions that goes with it
 Try to extract more legends from text around images
 Try to extract more images from wikimedia commons
+Extract Table as images
+Extract the main table (infobox) as the last image for the video with a 10s delay
 Setup a counter to see the number of characters send for each project and the total
 Put a mark in each image place to display them at the appropriate time
 
