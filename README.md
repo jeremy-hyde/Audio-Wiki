@@ -12,13 +12,13 @@ pyenv, poetry imagemagick 6.9, inkscape (gives us a svg lib)
 ### 1. Extract Article
 Extract the page into ssml
 ```shell
-python extract_wiki {wiki_article_url}
+python 1_extract_wiki {wiki_article_url}
 ```
 
 ### 2. Split file into smaller files
 Split the file in files under 5000 characters for google tts
 ```shell
-python split_file_into_smaler_files.py {path}
+python 2_split_file_into_smaler_files.py {path}
 ```
 
 The following command check the character size of each file
@@ -29,13 +29,13 @@ wc -c {path}/ssml/part_*.txt
 ### 3. Create audio file
 ```shell
 export GOOGLE_APPLICATION_CREDENTIALS=turnkey-axiom-340516-01493ce37939.json
-python create_audio_from_text.py --ssml {path}
+python 3_create_audio_from_text.py --ssml {path}
 ```
 
 ### 4. Modify Images
 This convert, resize and add caption to images
 ```shell
-bash modify_images.bash {path}
+bash 4_modify_images.bash {path}
 ```
 
 ### 5. Create Videos
