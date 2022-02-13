@@ -52,6 +52,7 @@ La voix sur voicebooking est légérement mieux surement grace a un travail sur 
 
 
 
+ffmpeg -f lavfi -i color=c=black:s=640x480:d=7200 -i iamge.png -filter_complex "[1][0]scale2ref=oh*mdar:ih[fg][bg];[bg][fg]overlay=(W-w)/2:(H-h)/2:enable='eq(t,8)'[v]" -map "[v]" output
 
 
 

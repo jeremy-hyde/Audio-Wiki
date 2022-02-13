@@ -1,7 +1,7 @@
 # Audio Wiki
 
 Requirements:
-pyenv, poetry imagemagick 6.9, inkscape (gives us a svg lib)
+pyenv, poetry imagemagick 6.9, inkscape (gives us a svg lib), ffmpeg, sox, libsox-fmt-mp3 (lib for sox)
 Changing imagemagick conf ti increase limits: [see](https://github.com/ImageMagick/ImageMagick/issues/396)
 
 ## Documentation
@@ -26,24 +26,39 @@ The following command check the character size of each file
 wc -c {path}/ssml/part_*.txt
 ```
 
-### 3. Create audio file
-```shell
-export GOOGLE_APPLICATION_CREDENTIALS=turnkey-axiom-340516-01493ce37939.json
-python 3_create_audio_from_text.py --ssml {path}
-```
-
-### 4. Modify Images
+### 3. Modify Images
 This convert, resize and add caption to images
 ```shell
-bash 4_modify_images.bash {path}
+bash 3_modify_images.bash {path}
 ```
 
-### 5. Create Videos
+### 4. Create audio file
+```shell
+export GOOGLE_APPLICATION_CREDENTIALS=turnkey-axiom-340516-01493ce37939.json
+python 4_create_audio_from_text.py --ssml {path}
+```
+
+The following command check the length of each file (in seconds)
+```shell
+soxi -D {path}/audio/output_*.mp3
+```
+
+### 5. Concatenate audio files
+```shell
+bash 5_concat_audio.bash {path}
+```
+
+### 6. Generate full timepoints
 ```shell
 
 ```
 
-### 6. Create Description
+### 7. Create Video
+```shell
+
+```
+
+### 8. Create Description
 ```shell
 
 ```
