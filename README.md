@@ -1,8 +1,8 @@
 # Audio Wiki
 
 Requirements:
-
 pyenv, poetry imagemagick 6.9, inkscape (gives us a svg lib)
+Changing imagemagick conf ti increase limits: [see](https://github.com/ImageMagick/ImageMagick/issues/396)
 
 ## Documentation
 [Google: https://cloud.google.com/text-to-speech/docs/libraries](https://cloud.google.com/text-to-speech/docs/libraries)

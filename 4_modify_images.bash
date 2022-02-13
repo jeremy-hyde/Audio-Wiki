@@ -29,7 +29,7 @@ for filename in "$1"/images/*; do
     echo $filename
     # Add Caption with wrap at 1920 and a lot of small things
     # https://legacy.imagemagick.org/Usage/thumbnails/#labels
-    convert "$filename" \( -background black -fill white -pointsize 25 -size 1920x -gravity Center caption:"$line" -trim +repage -bordercolor black -border 50 \) -gravity South -append "$filename"
+    convert "$filename" \( -background black -fill white -pointsize 25 -size 1720x -gravity Center caption:"$line" -trim +repage -bordercolor black -border 50 \) -gravity South -append "$filename"
 
     echo $line
     # Fill black to get a consistent 1920x1080 size

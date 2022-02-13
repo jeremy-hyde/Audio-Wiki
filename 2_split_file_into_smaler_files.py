@@ -5,8 +5,7 @@ CHARACTER_LIMIT = 5000
 
 
 def main(folder):
-    directories = folder.split('/')[:-1]  # remove last part
-    result_folder = "{}/ssml".format('/'.join(directories))
+    result_folder = "{}/ssml".format(folder)
 
     try:
         os.mkdir(result_folder)
