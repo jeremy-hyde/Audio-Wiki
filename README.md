@@ -50,12 +50,13 @@ bash 5_concat_audio.bash {path}
 
 ### 6. Generate full timepoints
 ```shell
-
+python 6_filter_and_concat_timepoints.py {path}
 ```
 
 ### 7. Create Video
+This command will print another command to execute
 ```shell
-
+python 7_generate_video_command.py {path}
 ```
 
 ### 8. Create Description

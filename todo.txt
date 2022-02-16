@@ -27,9 +27,9 @@ After 4
 
 
 -- PRIORITY 1
-Extract Main image
 Create the video from the audio and images
 Video description template
+Extract Main image
 Last Image with like & subscribe + comment (suggest next video)
 Audio with like & subscribe + comment (suggest next video)
 
