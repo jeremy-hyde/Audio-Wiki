@@ -1,0 +1,9 @@
+<speak>
+<break time="2s"/>
+Thanks for listening.
+<break time="0.5s"/>
+Like & Subscribe for more content.
+<break time="0.5s"/>
+Comment your thought on this article,
+and the next one you want to see.
+</speak>

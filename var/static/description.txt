@@ -1,0 +1,8 @@
+Source of the video: {url}
+
+{introduction}
+
+{timestamps}
+
+What are your thoughts opn this article ?
+Want to see a specific article ? Leave a comment !
