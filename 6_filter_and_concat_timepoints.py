@@ -8,6 +8,7 @@ def main(folder):
     filenames = filter(lambda x: x.startswith('output'), filenames)  # keep only files starting with output
 
     chapters_file = open('{}/timepoints/chapters.txt'.format(folder), mode='w')
+    chapters_file.write('TIMESTAMPS\n')
     images_file = open('{}/timepoints/images.txt'.format(folder), mode='w')
 
     offset = 0
@@ -24,7 +25,9 @@ def main(folder):
                     images_file.write(' => '.join((elements[0], str(timestamp))))
                     images_file.write('\n')
                 else:
-                    chapters_file.write(' => '.join((elements[0], str(timestamp))))
+                    minutes = round(timestamp) // 60
+                    seconds = round(timestamp) % 60
+                    chapters_file.write('{}:{:0>2} - {}'.format(minutes, seconds, elements[0]))
                     chapters_file.write('\n')
 
         offset += duration
