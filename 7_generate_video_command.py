@@ -1,8 +1,46 @@
 import argparse
 
 
-def main():
-    pass
+"""
+ffmpeg \
+-f lavfi -i color=c=black:s=1920x1080:r=24 \
+-i var/Galatia/audio/output_2.wav \
+-i var/Galatia/images/001.jpg \
+-i var/Galatia/images/002.jpg \
+-filter_complex "\
+overlay=enable='between(t,0,8)',\
+overlay=enable='between(t,8,15)'" \
+-c:a copy \
+-pix_fmt yuvj422p \
+-crf 17 \
+-shortest \
+out2.mkv
+
+"""
+
+base_command = """
+ffmpeg \
+-f lavfi -i color=c=black:s=1920x1080:r=24 \
+-i {audio_path} \
+{images_paths}
+-filter_complex "\
+{images_overlays}
+-c:a copy \
+-pix_fmt yuvj422p \
+-crf 17 \
+-shortest \
+{path}/output.mp4
+"""
+
+
+def main(folder):
+    arguments = {
+        'audio_path': '{}/audio/full.wav'.format(folder),
+        'images_paths': [],
+        'images_overlays': [],
+        'path': folder,
+    }
+    print(base_command.format(**arguments))
 
 
 if __name__ == '__main__':

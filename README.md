@@ -1,7 +1,7 @@
 # Audio Wiki
 
 Requirements:
-pyenv, poetry imagemagick 6.9, inkscape (gives us a svg lib), ffmpeg, sox, libsox-fmt-mp3 (lib for sox)
+pyenv, poetry imagemagick 6.9, inkscape (gives us a svg lib), ffmpeg, sox
 Changing imagemagick conf ti increase limits: [see](https://github.com/ImageMagick/ImageMagick/issues/396)
 
 ## Documentation
@@ -40,7 +40,7 @@ python 4_create_audio_from_text.py --ssml {path}
 
 The following command check the length of each file (in seconds)
 ```shell
-soxi -D {path}/audio/output_*.mp3
+soxi -D {path}/audio/output_*.wav
 ```
 
 ### 5. Concatenate audio files

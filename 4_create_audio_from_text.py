@@ -54,7 +54,7 @@ def synthesize_text_file(i, text_file, folder):
         speaking_rate=0.90,
         pitch=0.0,
         volume_gain_db=0.0,
-        audio_encoding=texttospeech.AudioEncoding.MP3,
+        audio_encoding=texttospeech.AudioEncoding.LINEAR16,
         effects_profile_id=['headphone-class-device']
     )
 
@@ -63,14 +63,14 @@ def synthesize_text_file(i, text_file, folder):
     )
 
     # The response's audio_content is binary.
-    with open("{}/audio/output_{}.mp3".format(folder, i), "wb") as out:
+    with open("{}/audio/output_{}.wav".format(folder, i), "wb") as out:
         out.write(response.audio_content)
-        print('Audio content written to file "{}/audio/output_{}.mp3"'.format(folder, i))
+        print('Audio content written to file "{}/audio/output_{}.wav"'.format(folder, i))
 
     with open("{}/timepoints/output_{}.txt".format(folder, i), "w") as out:
         for timepoint in response.timepoints:
             out.write("{} => {}\n".format(timepoint.mark_name, timepoint.time_seconds))
-        print('Timepoints content written to file "{}/timepoints/output_{}.mp3"'.format(folder, i))
+        print('Timepoints content written to file "{}/timepoints/output_{}.wav"'.format(folder, i))
 
 
 if __name__ == "__main__":

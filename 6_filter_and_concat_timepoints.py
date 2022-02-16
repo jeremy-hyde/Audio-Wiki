@@ -14,8 +14,8 @@ def main(folder):
     offset = 0
 
     for i, filename in enumerate(sorted(filenames), start=1):
-        duration = float(os.popen("soxi -D {}/audio/output_{}.mp3".format(folder, i)).read().strip())
-        print('Audio: {0}/audio/output_{1}.mp3 - Timepoint: {0}/timepoints/output_{1}.txt, Duration: {2}'.format(folder, i, duration))
+        duration = float(os.popen("soxi -D {}/audio/output_{}.wav".format(folder, i)).read().strip())
+        print('Audio: {0}/audio/output_{1}.wav - Timepoint: {0}/timepoints/output_{1}.txt, Duration: {2}'.format(folder, i, duration))
 
         with open('{}/timepoints/{}'.format(folder, filename), mode='r') as file:
             for line in file:

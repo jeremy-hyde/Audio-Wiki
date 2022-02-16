@@ -14,6 +14,7 @@ DONE {
     https://cloud.google.com/text-to-speech/docs/ssml#ssml_timepoints
 }
 DONE Extract Lists in main page
+DONE Audio with like & subscribe + comment (suggest next video)
 
 Manual Things to do:
 After 1
@@ -26,15 +27,18 @@ After 4
 - Check images and captions
 
 
+
+
 -- PRIORITY 1
 Create the video from the audio and images
+Create thumbnail from main image + wikipedia logo + something else
 Video description template
 Extract Main image
-Last Image with like & subscribe + comment (suggest next video)
-Audio with like & subscribe + comment (suggest next video)
+Last Image with like & subscribe + comment (suggest next video) can stay 10 seconds
 
 
 -- PRIORITY 2
+Move images.txt file and raw.txt file on their specific folders, don't forget to test !!!
 Extract image mosaic and make mosaic
 Extract number from div[@class="hlist"]>ul>li
 Extract more images and the captions that goes with it
@@ -48,11 +52,4 @@ Extract colors in captions
 
 
 voicebooking utilise google text to speech
-La voix sur voicebooking est légérement mieux surement grace a un travail sur l'audio, pas forcément --  shrug ?
-
-
-
-ffmpeg -f lavfi -i color=c=black:s=640x480:d=7200 -i iamge.png -filter_complex "[1][0]scale2ref=oh*mdar:ih[fg][bg];[bg][fg]overlay=(W-w)/2:(H-h)/2:enable='eq(t,8)'[v]" -map "[v]" output
-
-
-
+La voix sur voicebooking est légérement mieux surement grace a un travail sur l'audio, pas forcément -- shrug ?
