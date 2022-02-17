@@ -6,12 +6,6 @@ from typing import List
 from scraper import PyCurlSynchronousEngine, Request, SynchronousExporter, Settings
 
 
-# Exemples
-#WIKI_PAGE = 'https://en.wikipedia.org/wiki/History_of_Athens'
-#WIKI_PAGE = 'https://en.wikipedia.org/wiki/Cyrus_the_Great'
-#WIKI_PAGE = 'https://en.wikipedia.org/wiki/Elizabeth_II'
-
-
 def create_directories(title):
     try:
         shutil.rmtree("var/{}".format(title))
@@ -67,13 +61,21 @@ def main(url):
         title = res.xfirst('//h1/text()')
         create_directories(title)
 
+        main_image = get_img_url(res.xfirst('//td[contains(@class, "infobox-image")]/a/img/@src'))
+
         result = [
             '<break time="1s"/><mark name="Introduction"/><emphasis level="moderate">Introduction.</emphasis><break time="1s"/>'
         ]
 
-        images = []
+        images = [
+            main_image
+        ]
 
-        images_caption = []
+        images_caption = [
+            title,  # For the main image
+        ]
+
+        image_counter = 2  # The first image is already used
 
         content = res.xfirst('//div[@class="mw-parser-output"]')
         for element in content.xpath('./*'):
@@ -96,6 +98,11 @@ def main(url):
                     result.append(clean_up(sub_element))
             elif element.tag == 'div' and "thumb" in element.get('class', ''):  # Get images
                 # Add mark for images here
+                text = '<mark name="img{0}"/>'.format(image_counter)
+                result.append(text)
+                image_counter += 1
+
+                # Get image and caption
                 image_src = element.xfirst(".//img/@src")
                 images.append(get_img_url(image_src))
                 description = clean_up(extract_caption(element)).replace('\n', ' ')
