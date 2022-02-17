@@ -9,9 +9,9 @@ def main(folder):
     create_directories(folder)
     filenames = next(walk('{}/ssml'.format(folder)), (None, None, []))[2]
 
-    for i, file in enumerate(sorted(filenames), start=1):
+    for file in sorted(filenames):
         print('Creating audio of file: {}'.format(file))
-        synthesize_text_file(i, '{}/ssml/{}'.format(folder, file), folder)
+        synthesize_text_file('{}/ssml/{}'.format(folder, file), folder)
 
 
 def create_directories(folder):
@@ -27,9 +27,11 @@ def create_directories(folder):
         pass
 
 
-def synthesize_text_file(i, text_file, folder):
+def synthesize_text_file(text_file, folder):
     """Synthesizes speech from the input file of text."""
     client = texttospeech.TextToSpeechClient()
+
+    number = text_file.split('_')[1].split('.txt')[0]
 
     with open(text_file, "r") as f:
         text = f.read()
@@ -54,14 +56,14 @@ def synthesize_text_file(i, text_file, folder):
     )
 
     # The response's audio_content is binary.
-    with open("{}/audio/output_{}.wav".format(folder, i), "wb") as out:
+    with open("{}/audio/output_{}.wav".format(folder, number), "wb") as out:
         out.write(response.audio_content)
-        print('Audio content written to file "{}/audio/output_{}.wav"'.format(folder, i))
+        print('Audio content written to file "{}/audio/output_{}.wav"'.format(folder, number))
 
-    with open("{}/timepoints/output_{}.txt".format(folder, i), "w") as out:
+    with open("{}/timepoints/output_{}.txt".format(folder, number), "w") as out:
         for timepoint in response.timepoints:
             out.write("{} => {}\n".format(timepoint.mark_name, timepoint.time_seconds))
-        print('Timepoints content written to file "{}/timepoints/output_{}.wav"'.format(folder, i))
+        print('Timepoints content written to file "{}/timepoints/output_{}.wav"'.format(folder, number))
 
 
 if __name__ == "__main__":

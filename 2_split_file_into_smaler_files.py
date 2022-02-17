@@ -35,7 +35,7 @@ def main(folder):
 
 
 def write_file(file_number, lines, result_folder):
-    with open('{}/part_{}.txt'.format(result_folder, file_number), mode='w') as file_written:
+    with open('{}/part_{:0>3}.txt'.format(result_folder, file_number), mode='w') as file_written:
         file_written.write('<speak>')
         file_written.writelines(lines)
         file_written.write('</speak>')
