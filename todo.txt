@@ -16,6 +16,8 @@ DONE {
 DONE Extract Lists in main page
 DONE Audio with like & subscribe + comment (suggest next video)
 DONE Last Image with like & subscribe + comment (suggest next video) can stay 12 seconds
+DONE Extract Main image
+DONE Create the video from the audio and images
 
 
 Manual Things to do:
@@ -23,19 +25,21 @@ After 1
 - Remove extra in the raw.txt (see also and references at the end of an article)
 - Remove unnecessary parenthesis in raw.txt
 - Check pronunciation of: I (first or aïe ?)
+- Check images
+- Check captions and if colors were present
+- Check mark that are close to each other (The images will not be shown)
+- search for { } and dot stuck to a letter (.x)
 After 2
 - Check each file is under 5000 characters
-After 4
-- Check images and captions
-
-
+After 3
+- Check images with captions
+After 8
+- Check outro on file
 
 
 -- PRIORITY 1
-Create the video from the audio and images
 Create thumbnail from main image + wikipedia logo + something else
-Video description template
-Extract Main image
+Video description template, prendre la premier phrase de l'introduction
 
 
 -- PRIORITY 2
@@ -50,6 +54,11 @@ Extract the main table (infobox) as the last image for the video with a 10s dela
 Setup a counter to see the number of characters send for each project and the total
 Put a mark in each image place to display them at the appropriate time
 Extract colors in captions
+
+
+-- PRIORITY 3
+Replace Google by https://github.com/coqui-ai/TTS.
+ssml is partially supported, <mark> is not at this point. But it can be done manually
 
 
 voicebooking utilise google text to speech
