@@ -9,7 +9,7 @@ def main(folder):
     create_directories(folder)
     filenames = next(walk('{}/ssml'.format(folder)), (None, None, []))[2]
 
-    for i, file in enumerate(filenames, start=1):
+    for i, file in enumerate(sorted(filenames), start=1):
         print('Creating audio of file: {}'.format(file))
         synthesize_text_file(i, '{}/ssml/{}'.format(folder, file), folder)
 
@@ -35,19 +35,10 @@ def synthesize_text_file(i, text_file, folder):
         text = f.read()
         input_text = texttospeech.SynthesisInput(ssml=text)
 
-    # Note: the voice can also be specified by name.
-    # Names of voices can be retrieved with client.list_voices().
-
-    # Great Britain
-    # voice = texttospeech.VoiceSelectionParams(
-    #     language_code="en-GB",
-    #     name="en-GB-Wavenet-B",
-    # )
-
     # United States
     voice = texttospeech.VoiceSelectionParams(
         language_code="en-US",
-        name="en-US-Wavenet-D",
+        name="en-US-Wavenet-C",
     )
 
     audio_config = texttospeech.AudioConfig(
