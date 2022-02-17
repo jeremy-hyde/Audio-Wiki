@@ -1,4 +1,3 @@
-
 DONE Resize svg to a certain size ?
 DONE Split the file in 5000 characters parts
 DONE Add emphasis and break around h3 and h4
@@ -18,6 +17,7 @@ DONE Audio with like & subscribe + comment (suggest next video)
 DONE Last Image with like & subscribe + comment (suggest next video) can stay 12 seconds
 DONE Extract Main image
 DONE Create the video from the audio and images
+DONE Put a mark in each image place to display them at the appropriate time
 
 
 Manual Things to do:
@@ -40,6 +40,7 @@ After 8
 -- PRIORITY 1
 Create thumbnail from main image + wikipedia logo + something else
 Video description template, prendre la premier phrase de l'introduction
+Upload to youtube
 
 
 -- PRIORITY 2
@@ -52,13 +53,12 @@ Try to extract more images from wikimedia commons
 Extract Table as images
 Extract the main table (infobox) as the last image for the video with a 10s delay
 Setup a counter to see the number of characters send for each project and the total
-Put a mark in each image place to display them at the appropriate time
 Extract colors in captions
 
 
 -- PRIORITY 3
-Replace Google by https://github.com/coqui-ai/TTS.
-ssml is partially supported, <mark> is not at this point. But it can be done manually
+Replace Google by https://github.com/coqui-ai/TTS. -> ssml is partially supported, <mark> is not at this point. But it can be done manually
+
 
 
 voicebooking utilise google text to speech

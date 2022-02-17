@@ -26,9 +26,14 @@ def main(folder):
                     images_file.write(' => '.join((elements[0], str(timestamp))))
                     images_file.write('\n')
                 else:
-                    minutes = round(timestamp) // 60
                     seconds = round(timestamp) % 60
-                    chapters_file.write('{}:{:0>2} - {}'.format(minutes, seconds, elements[0]))
+                    minutes = round(timestamp) // 60
+                    if minutes >= 60:
+                        hours = round(minutes) // 60
+                        minutes = round(minutes) % 60
+                        chapters_file.write('{}:{:0>2}:{:0>2} - {}'.format(hours, minutes, seconds, elements[0]))
+                    else:
+                        chapters_file.write('{:0>2}:{:0>2} - {}'.format(minutes, seconds, elements[0]))
                     chapters_file.write('\n')
 
         offset += duration
