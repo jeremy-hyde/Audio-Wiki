@@ -4,5 +4,7 @@ Source of the video: {url}
 
 {timestamps}
 
-What are your thoughts opn this article ?
+What are your thoughts on this article ?
 Want to see a specific article ? Leave a comment !
+
+All licenses and copyright holders are listed on the article page.
