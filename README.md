@@ -59,7 +59,20 @@ This command will print another command to execute
 python 7_generate_video_command.py {path}
 ```
 
-### 8. Create Description
+### 8. Add outro to video
 ```shell
+bash 8_concat_outro.bash {path}
+```
 
+
+## Other commands
+
+### Generate outro
+```shell
+bash assets/outro/generate_outro.bash
+```
+
+### See video file info
+```shell
+ffprobe {path}
 ```
