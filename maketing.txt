@@ -1,5 +1,10 @@
 
 Making good thumbnails see exemple file
+- Fond couleur unique avec gradiant ombrage sur les cotés
+- Text avec le titre lisible
+-
+
+
 creation de playlists: personnalité, politique, pays, etc
 
 Title:
