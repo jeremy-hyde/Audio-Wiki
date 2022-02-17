@@ -28,6 +28,9 @@ def clean_up(element):
     # remove reference <sup> except if it contains 2 or 3 (km², surface, volume, ...)
     for sup in element.xpath('.//sup[not(text() = "2" or text() = "3")]'):
         sup.drop_tree()
+    # remove style tag if present in p tag
+    for stl in element.xpath('.//style'):
+        stl.drop_tree()
     return element.text_content().strip().replace("\u00A0", " ").replace('[edit]', '')
 
 
@@ -81,6 +84,8 @@ def main(url):
         for element in content.xpath('./*'):
             if element.tag == 'p':
                 result.append(clean_up(element))
+            elif element.tag == 'blockquote':
+                result.append(clean_up(element.xfirst('./p')))
             elif element.tag == 'h2':
                 h2 = clean_up(element)
                 text = '<break time="1s"/><mark name="{0}"/><emphasis level="moderate">{0}.</emphasis><break time="1s"/>'.format(h2)
@@ -95,7 +100,7 @@ def main(url):
                 result.append(text)
             elif element.tag == 'ul' and not element.get('class'):  # Only ul text
                 for sub_element in element.xpath('./li'):
-                    result.append(clean_up(sub_element))
+                    result.append('{}.'.format(clean_up(sub_element)))  # Add a dot to the end of each list's element
             elif element.tag == 'div' and "thumb" in element.get('class', ''):  # Get images
                 # Add mark for images here
                 text = '<mark name="img{0}"/>'.format(image_counter)
