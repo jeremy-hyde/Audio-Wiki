@@ -1,8 +1,10 @@
 
 Making good thumbnails see exemple file
-- Fond couleur unique avec gradiant ombrage sur les cotés
-- Text avec le titre lisible
--
+- DONE Fond couleur unique avec gradiant ombrage sur les cotés
+- DONE Fond transparent avec le drapeau du pays
+- DONE Text avec le titre lisible
+- DONE Sub Text avec le titre a peine lisible
+- logo ?
 
 
 creation de playlists: personnalité, politique, pays, etc

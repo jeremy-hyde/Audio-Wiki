@@ -65,6 +65,11 @@ python 7_generate_video_command.py {path}
 bash 8_concat_outro.bash {path}
 ```
 
+### 9. Generate thumbnail
+```shell
+bash 9_generate_thumbnail.bash {path} "{TITLE}" "{SUBTITLE}" [flip]
+```
+
 
 ## Other commands
 

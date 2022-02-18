@@ -18,6 +18,7 @@ DONE Last Image with like & subscribe + comment (suggest next video) can stay 12
 DONE Extract Main image
 DONE Create the video from the audio and images
 DONE Put a mark in each image place to display them at the appropriate time
+DONE Create thumbnail from main image + wikipedia logo + something else
 
 
 Manual Things to do:
@@ -36,12 +37,9 @@ After 3
 After 8
 - Check outro on file
 
-
 -- PRIORITY 1
-Create thumbnail from main image + wikipedia logo + something else
 Video description template, prendre la premier phrase de l'introduction
 Upload to youtube
-
 
 -- PRIORITY 2
 Move images.txt file and raw.txt file on their specific folders, don't forget to test !!!
@@ -52,7 +50,6 @@ Try to extract more legends from text around images
 Try to extract more images from wikimedia commons
 Extract Table as images
 Extract the main table (infobox) as the last image for the video with a 10s delay
-Setup a counter to see the number of characters send for each project and the total
 Extract colors in captions
 
 
