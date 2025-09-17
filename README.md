@@ -8,6 +8,10 @@ Font impact: `sudo apt-get install ttf-mscorefonts-installer`
 ## Documentation
 [Google: https://cloud.google.com/text-to-speech/docs/libraries](https://cloud.google.com/text-to-speech/docs/libraries)
 
+## Result example
+
+[Elizabeth 2](https://m.youtube.com/watch?v=1p2GzuKYhLo)
+
 ## Commands:
 
 ### 1. Extract Article
